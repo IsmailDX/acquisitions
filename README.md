@@ -28,7 +28,7 @@ Notes:
 
 ## Production: run with Neon Cloud
 
-1. In the Neon console, copy your production `DATABASE_URL` (ensure `sslmode=require`).
+1. In Neon console, copy your production `DATABASE_URL` (ensure `sslmode=require`).
 2. Edit `.env.production` and set `DATABASE_URL`.
 3. Start prod stack (no Neon Local proxy):
    - `docker compose -f docker-compose.prod.yml up --build -d`
