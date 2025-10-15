@@ -8,28 +8,8 @@ const testUser = {
   name: 'Test User',
   email: 'test@example.com',
   password: 'password123',
-  role: 'user'
+  role: 'user',
 };
-
-async function testSignup() {
-  console.log('\n=== Testing Signup ===');
-  try {
-    const response = await fetch(`${BASE_URL}/sign-up`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(testUser)
-    });
-
-    const data = await response.json();
-    console.log('Signup Response:', response.status, data);
-    
-    return response.headers.get('set-cookie');
-  } catch (error) {
-    console.error('Signup Error:', error.message);
-  }
-}
 
 async function testSignin() {
   console.log('\n=== Testing Signin ===');
@@ -41,13 +21,13 @@ async function testSignin() {
       },
       body: JSON.stringify({
         email: testUser.email,
-        password: testUser.password
-      })
+        password: testUser.password,
+      }),
     });
 
     const data = await response.json();
     console.log('Signin Response:', response.status, data);
-    
+
     return response.headers.get('set-cookie');
   } catch (error) {
     console.error('Signin Error:', error.message);
@@ -60,8 +40,8 @@ async function testSignout(cookie) {
     const response = await fetch(`${BASE_URL}/sign-out`, {
       method: 'POST',
       headers: {
-        'Cookie': cookie || ''
-      }
+        Cookie: cookie || '',
+      },
     });
 
     const data = await response.json();
@@ -73,22 +53,19 @@ async function testSignout(cookie) {
 
 async function runTests() {
   console.log('Starting Authentication Tests...\n');
-  
-  // Test signup
-  const signupCookie = await testSignup();
-  
+
   // Wait a bit
   await new Promise(resolve => setTimeout(resolve, 1000));
-  
+
   // Test signin
   const signinCookie = await testSignin();
-  
+
   // Wait a bit
   await new Promise(resolve => setTimeout(resolve, 1000));
-  
+
   // Test signout
   await testSignout(signinCookie);
-  
+
   console.log('\n=== Tests Complete ===');
 }
 

@@ -77,18 +77,19 @@ export const authenticateUser = async ({ email, password }) => {
       throw new Error('Invalid credentials');
     }
 
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = user;
+    // @ts-ignore
+    const { password: _password, ...userWithoutPassword } = user;
+    void _password; // mark as used to satisfy no-unused-vars
     logger.info(`User authenticated successfully: ${email}`);
     return userWithoutPassword;
   } catch (error) {
     logger.error('Error authenticating user', error);
-    
+
     // Don't expose specific error details for security
     if (error.message === 'Invalid credentials') {
       throw error;
     }
-    
+
     throw new Error('Authentication failed');
   }
 };

@@ -85,7 +85,10 @@ export const signin = async (req, res, next) => {
   } catch (e) {
     logger.error('Signin error', e);
 
-    if (e.message === 'Invalid credentials' || e.message === 'Authentication failed') {
+    if (
+      e.message === 'Invalid credentials' ||
+      e.message === 'Authentication failed'
+    ) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
@@ -97,7 +100,7 @@ export const signout = async (req, res, next) => {
   try {
     // Get token from cookie for logging purposes (optional)
     const token = cookies.get(req, 'token');
-    
+
     // Clear the authentication cookie
     cookies.clear(res, 'token');
 
@@ -108,7 +111,7 @@ export const signout = async (req, res, next) => {
         logger.info(`User signed out successfully: ${decoded.email}`);
       } catch (tokenError) {
         // If token is invalid, still proceed with signout
-        logger.info('User signed out (invalid token cleared)');
+        logger.info('User signed out (invalid token cleared)', tokenError);
       }
     } else {
       logger.info('User signed out (no token present)');
